@@ -56,6 +56,55 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="8dp" />
+
+            <!-- Budget Progress -->
+            <TextView
+                android:id="@+id/tvBudgetInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Budget: Rp 5.000.000 • Sisa: Rp 2.000.000"
+                android:textColor="#E3F2FD"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBudget"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="8dp"
+                android:progress="60"
+                android:progressTint="#4CAF50"
+                android:visibility="gone" />
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+
+                <Button
+                    android:id="@+id/btnSetBudget"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="💰 Set Budget"
+                    android:textSize="12sp"
+                    android:backgroundTint="#1976D2"
+                    android:layout_marginEnd="6dp" />
+
+                <Button
+                    android:id="@+id/btnViewChart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📊 Lihat Grafik"
+                    android:textSize="12sp"
+                    android:backgroundTint="#1976D2"
+                    android:layout_marginStart="6dp" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- RecyclerView -->

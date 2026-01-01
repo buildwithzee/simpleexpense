@@ -1,5 +1,7 @@
 package com.example.simpleexpense
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.core.graphics.toColorInt
 
 class ExpenseAdapter(
     private var expenses: List<Expense>,
@@ -19,6 +22,7 @@ class ExpenseAdapter(
     class ExpenseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvAmount: TextView = view.findViewById(R.id.tvAmount)
         val tvPaymentMethod: TextView = view.findViewById(R.id.tvPaymentMethod)
+        val tvCategory: TextView = view.findViewById(R.id.tvCategory)
         val tvDescription: TextView = view.findViewById(R.id.tvDescription)
         val tvDate: TextView = view.findViewById(R.id.tvDate)
         val btnEdit: ImageButton = view.findViewById(R.id.btnEdit)
@@ -38,8 +42,13 @@ class ExpenseAdapter(
 
         holder.tvAmount.text = formatter.format(expense.amount)
         holder.tvPaymentMethod.text = expense.paymentMethod
+        holder.tvCategory.text = expense.category
         holder.tvDescription.text = expense.description
         holder.tvDate.text = dateFormatter.format(Date(expense.timestamp))
+
+        // Set category color
+        val categoryColor = ExpenseCategory.getCategoryColor(expense.category)
+        holder.tvCategory.setBackgroundColor(categoryColor.toColorInt())
 
         holder.btnEdit.setOnClickListener { onEditClick(expense) }
         holder.btnDelete.setOnClickListener { onDeleteClick(expense) }
@@ -47,6 +56,7 @@ class ExpenseAdapter(
 
     override fun getItemCount() = expenses.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newExpenses: List<Expense>) {
         expenses = newExpenses
         notifyDataSetChanged()

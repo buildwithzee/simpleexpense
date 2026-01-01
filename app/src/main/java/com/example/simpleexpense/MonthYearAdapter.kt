@@ -1,5 +1,6 @@
 package com.example.simpleexpense
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class MonthYearAdapter(
 
     override fun getItemCount() = monthYears.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newMonthYears: List<MonthYear>) {
         monthYears = newMonthYears
         notifyDataSetChanged()

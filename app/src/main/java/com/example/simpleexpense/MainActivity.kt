@@ -1,5 +1,6 @@
 package com.example.simpleexpense
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -137,15 +138,35 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    @SuppressLint("DefaultLocale")
     private fun showSummary(monthYear: MonthYear) {
         val summary = database.getSummary(monthYear)
+        val budget = database.getBudget(monthYear)
+
         val message = buildString {
-            append("Total Pengeluaran:\n")
+            append("💰 Total Pengeluaran:\n")
             append("Rp ${String.format("%,.0f", summary.totalExpense)}\n\n")
-            append("Jumlah Transaksi: ${summary.expenseCount}\n\n")
+
+            if (budget != null) {
+                val remaining = budget - summary.totalExpense
+                val status = if (remaining >= 0) "Sisa" else "Melebihi"
+                append("🎯 Budget: Rp ${String.format("%,.0f", budget)}\n")
+                append("$status: Rp ${String.format("%,.0f", kotlin.math.abs(remaining))}\n\n")
+            }
+
+            append("📊 Jumlah Transaksi: ${summary.expenseCount}\n\n")
+
+            if (summary.byCategory.isNotEmpty()) {
+                append("📁 Per Kategori:\n")
+                summary.byCategory.entries.sortedByDescending { it.value }.forEach { (category, amount) ->
+                    val percent = (amount / summary.totalExpense * 100).toInt()
+                    append("• $category: Rp ${String.format("%,.0f", amount)} ($percent%)\n")
+                }
+                append("\n")
+            }
 
             if (summary.byPaymentMethod.isNotEmpty()) {
-                append("Per Metode Pembayaran:\n")
+                append("💳 Per Metode Pembayaran:\n")
                 summary.byPaymentMethod.forEach { (method, amount) ->
                     append("• $method: Rp ${String.format("%,.0f", amount)}\n")
                 }
